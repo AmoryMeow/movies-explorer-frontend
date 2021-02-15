@@ -1,0 +1,53 @@
+.header {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 70px;
+  box-sizing: border-box;
+}
+
+.logo {
+  height: 38px;
+  width: 38px;
+  object-fit: cover;
+}
+
+.header__menu {
+  display: flex;
+  align-items: center;
+}
+
+.header__menu-item {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  margin-right: 20px;
+  text-decoration: none;
+  color: #000;
+}
+
+.header__menu-item:hover {
+  opacity: .7;
+}
+
+.header__signin {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #FFF;
+  background-color: #000;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 76px;
+  height: 32px;
+  border-radius: 3px;
+  margin-left: 30px;
+}
+
+.header__signin:hover {
+  opacity: .8;
+  cursor: pointer;
+}
