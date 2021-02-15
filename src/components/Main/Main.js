@@ -1,5 +1,6 @@
 import './Main.css';
 import Promo from '../Promo/Promo';
+import AboutProject from '../AboutProject/AboutProject';
 
 function Main() {
   return(
@@ -7,19 +8,7 @@ function Main() {
 
       <Promo />
 
-    <section className="aboutProject">
-      <h2>О проекте</h2>
-      <ul>
-        <li>
-          <h3>Дипломный проект включал 5 этапов</h3>
-          <p>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
-        </li>
-        <li>
-          <h3>На выполнение диплома ушло 5 недель</h3>
-          <p>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
-        </li>
-      </ul>
-    </section>
+      <AboutProject/>
 
     <section className="techs">
       <h2>Технологии</h2>
