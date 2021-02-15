@@ -1,6 +1,7 @@
 import './Main.css';
 import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject';
+import Techs from '../Techs/Techs';
 
 function Main() {
   return(
@@ -10,20 +11,7 @@ function Main() {
 
       <AboutProject/>
 
-    <section className="techs">
-      <h2>Технологии</h2>
-      <h3>7 технологий</h3>
-      <p>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
-      <ul>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JS</li>
-        <li>React</li>
-        <li>Git</li>
-        <li>Express.js</li>
-        <li>mongoDB</li>
-      </ul>
-    </section>
+      <Techs/>
 
     <section className="aboutMe">
       <h2>Студент</h2>
