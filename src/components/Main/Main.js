@@ -2,6 +2,7 @@ import './Main.css';
 import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
+import AboutMe from '../AboutMe/AboutMe';
 
 function Main() {
   return(
@@ -13,10 +14,8 @@ function Main() {
 
       <Techs/>
 
-    <section className="aboutMe">
-      <h2>Студент</h2>
-    </section>
-
+      <AboutMe/>
+      
     <section className="portfolio"></section>
   </main>
   )
