@@ -1,0 +1,26 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 364px);;
+  grid-column-gap: 24px;
+  grid-row-gap: 30px;
+  padding: 0 70px;
+  margin: 0 auto;
+}
+
+.cards__more {
+  margin: 61px 70px 89px;
+  width: calc( 100% - 140px );
+  background-color: #F9F9F9;
+  min-height: 36px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cards__more:hover {
+  background-color: #E8E8E8;;
+}
