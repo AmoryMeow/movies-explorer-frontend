@@ -41,10 +41,14 @@
   border: none;
   outline: none;
   padding: 0;
-  width: 76px;
+  min-width: 76px;
   height: 32px;
   border-radius: 3px;
   margin-left: 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header__signin:hover {
@@ -65,6 +69,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 3px;
+  box-sizing: border-box;
+  text-decoration: none;
 }
 
 .header__profile-text {
@@ -74,6 +80,7 @@
   font-size: 13px;
   line-height: 12px;
   padding: 0 7px;
+  color: #000
 }
 
 .header__profile-img {

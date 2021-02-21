@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
+import Profile from '../Profile/Profile';
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
 
         <Route path="/saved-movies">
           <Movies savedMovies={true}/>
+        </Route>
+
+        <Route path="/profile">
+          <Profile/>
         </Route>
 
       </Switch>
