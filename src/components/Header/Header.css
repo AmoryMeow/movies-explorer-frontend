@@ -64,7 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0;
+  padding: 3px;
 }
 
 .header__profile-text {
@@ -83,5 +83,4 @@
   background-color: #F9F9F9;
   border-radius: 50%;
   box-sizing: border-box;
-  margin: 0 3px;
 }
