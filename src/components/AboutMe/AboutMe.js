@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
 import './AboutMe.css';
 import photo from '../../images/aboutme_photo.png';
 
 function AboutMe() {
   return (
-    <section className="aboutme">
+    <section className="aboutme" id="aboutme">
       <h2 className="aboutme__title">Студент</h2>
       <div className="aboutme__container">
         <div className="aboutme__student">
@@ -16,10 +15,10 @@ function AboutMe() {
           </div>
           <ul className="aboutme__links">
             <li className="aboutme__links-item">
-              <Link className="aboutme__link" to="/">Facebook</Link>
+              <a className="aboutme__link" href="/">Facebook</a>
             </li>
             <li className="aboutme__links-item">
-              <Link className="aboutme__link" to="/">Github</Link>
+              <a className="aboutme__link" href="https://github.com/AmoryMeow/">Github</a>
             </li>
           </ul>
         </div>

@@ -1,17 +1,16 @@
-import { Link } from 'react-router-dom';
 import './NavTab.css';
 
 function NavTab() {
   return (
     <ul className="nav">
       <li className="nav__item">
-        <Link to="/" className="nav__link">О проекте</Link>
+        <a href="#project" className="nav__link">О проекте</a>
       </li>
       <li className="nav__item">
-        <Link to="/" className="nav__link">Технологии</Link>
+        <a href="#techs" className="nav__link">Технологии</a>
       </li>
       <li className="nav__item">
-        <Link to="/" className="nav__link">Студент</Link>
+        <a href="#aboutme" className="nav__link">Студент</a>
       </li>
     </ul>
   )
