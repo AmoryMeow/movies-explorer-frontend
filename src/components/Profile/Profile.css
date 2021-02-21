@@ -41,6 +41,10 @@
   line-height: 13px;
 }
 
+.profile__label:focus-within {
+  font-weight: bold;
+}
+
 .profile__input {
   background-color: transparent;
   text-align: end;
