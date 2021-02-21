@@ -2,19 +2,6 @@
   padding: 110px 70px 100px;
 }
 
-.aboutme__title {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 22px;
-  line-height: 27px;
-  letter-spacing: -0.04em;
-  min-height: 50px;
-  padding-bottom: 23px;
-  margin: 0;
-  box-sizing: border-box;
-  border-bottom: 1px #000 solid;
-}
-
 .aboutme__container {
   display: flex;
   justify-content: space-between;

@@ -1,10 +1,13 @@
 import './AboutMe.css';
+import SectionTitle from '../SectionTitle/SectionTitle';
 import photo from '../../images/aboutme_photo.png';
 
 function AboutMe() {
   return (
     <section className="aboutme" id="aboutme">
-      <h2 className="aboutme__title">Студент</h2>
+      <SectionTitle
+        title="Студент"
+      />
       <div className="aboutme__container">
         <div className="aboutme__student">
           <div className="aboutme__info">
