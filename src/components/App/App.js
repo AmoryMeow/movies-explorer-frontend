@@ -4,6 +4,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Movies from '../Movies/Movies';
 
 function App() {
   return (
@@ -12,10 +13,18 @@ function App() {
 
       <Switch>
 
-        <Route path="/">
+        <Route exact path="/">
           <Main />
         </Route>
         
+        <Route path="/movies">
+          <Movies savedMovies={false}/>
+        </Route>
+
+        <Route path="/saved-movies">
+          <Movies savedMovies={true}/>
+        </Route>
+
       </Switch>
       
       <Footer />

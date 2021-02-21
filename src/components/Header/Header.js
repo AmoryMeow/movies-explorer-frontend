@@ -10,7 +10,7 @@ function Header() {
       <nav className="header__menu">
         <NavLink to="/" className="header__menu-item">Регистрация</NavLink>
         <NavLink to="/movies" className="header__menu-item">Фильмы</NavLink>
-        <NavLink to="/movies" className="header__menu-item">Сохранённые фильмы</NavLink>
+        <NavLink to="/saved-movies" className="header__menu-item">Сохранённые фильмы</NavLink>
         <button className="header__signin">Войти</button>
         <button className="header__profile">
           <p className="header__profile-text">Аккаунт</p>

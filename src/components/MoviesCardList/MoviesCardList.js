@@ -1,15 +1,15 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList() {
+function MoviesCardList({ savedMovies }) {
   return (
     <>
       <section className="cards">
-        <MoviesCard/>
-        <MoviesCard/>
-        <MoviesCard/>
-        <MoviesCard/>
-        <MoviesCard/>
+        <MoviesCard savedMovies={savedMovies} />
+        <MoviesCard savedMovies={savedMovies} />
+        <MoviesCard savedMovies={savedMovies} />
+        <MoviesCard savedMovies={savedMovies} />
+        <MoviesCard savedMovies={savedMovies} />
       </section>
       <div className="cards__more">Ещё</div>
     </>
