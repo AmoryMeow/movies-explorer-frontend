@@ -6,11 +6,15 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import Profile from '../Profile/Profile';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(true);
+
   return (
     <div className="page">
-      <Header />
+      { loggedIn && <Header /> }
 
       <Switch>
 
@@ -30,9 +34,18 @@ function App() {
           <Profile/>
         </Route>
 
+        <Route path='/signup'>
+          <Register/>
+        </Route>
+
+        <Route path='/signin'>
+          <Login />
+        </Route>
+
       </Switch>
       
-      <Footer />
+      
+      { loggedIn && <Footer /> }
     
     </div>
   );
