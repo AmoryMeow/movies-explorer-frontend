@@ -8,6 +8,7 @@ import Movies from '../Movies/Movies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(true);
@@ -42,6 +43,9 @@ function App() {
           <Login />
         </Route>
 
+        <Route path="*">
+          <PageNotFound />
+        </Route>
       </Switch>
       
       
