@@ -10,19 +10,19 @@ function Portfolio() {
         <li className="portfolio__item">
           <Link to="/" className="portfolio__link">
             <p className="portfolio__text">Статичный сайт</p>
-            <img src={arrow} alt="Стрелка" />
+            <p className="portfolio__arrow">↗</p>
           </Link>
         </li>
         <li className="portfolio__item">
           <Link to="/" className="portfolio__link">
             <p className="portfolio__text">Адаптивный сайт</p>
-            <img src={arrow} alt="Стрелка" />
+            <p className="portfolio__arrow">↗</p>
           </Link>
         </li>
         <li className="portfolio__item">
           <Link to="/" className="portfolio__link">
             <p className="portfolio__text">Одностраничное приложение</p>
-            <img src={arrow} alt="Стрелка" />
+            <p className="portfolio__arrow">↗</p>
           </Link>
         </li>
       </ul>

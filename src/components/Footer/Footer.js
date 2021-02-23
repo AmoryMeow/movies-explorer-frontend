@@ -7,9 +7,9 @@ function Footer() {
       <div className="footer__info">
         <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
         <ul className="footer__links">
-          <li><a href="https://praktikum.yandex.ru/" className="footer__link">Яндекс.Практикум</a></li>
-          <li><a href="https://github.com/AmoryMeow/" className="footer__link">Github</a></li>
-          <li><a href="/" className="footer__link">Facebook</a></li>
+          <li className="footer__item"><a href="https://praktikum.yandex.ru/" className="footer__link">Яндекс.Практикум</a></li>
+          <li className="footer__item"><a href="https://github.com/AmoryMeow/" className="footer__link">Github</a></li>
+          <li className="footer__item"><a href="/" className="footer__link">Facebook</a></li>
         </ul>
       </div>
     </footer>

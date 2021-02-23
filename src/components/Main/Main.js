@@ -11,7 +11,7 @@ function Main() {
 
       <Promo />
 
-      <AboutProject/>
+       <AboutProject/>
 
       <Techs/>
 

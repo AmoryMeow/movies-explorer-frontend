@@ -27,3 +27,15 @@
 .nav__link:hover {
   background-color: rgb(200, 200, 200);
 }
+
+@media (max-width: 767px) {
+  .nav {
+    bottom: 17px;
+  }
+  .nav__link {
+    font-size: 10px;
+    line-height: 1.6;
+    padding: 5px 15px;
+  }
+
+}

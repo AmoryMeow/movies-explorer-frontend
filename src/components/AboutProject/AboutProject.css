@@ -7,7 +7,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 40px;
-  padding: 0;
   margin: 0;
   list-style: none;
   padding: 60px 0;
@@ -65,7 +64,7 @@
 }
 
 .progress-bar__description {
-  padding: 9px;
+  padding-top: 9px;
   box-sizing: border-box;
   font-style: normal;
   font-weight: normal;
@@ -73,4 +72,53 @@
   line-height: 1.21;
   text-align: center;
   color: #A0A0A0;
+}
+
+@media (max-width: 1279px) {
+  .project {
+    padding: 90px 50px;
+  }  
+  .project__content {
+    grid-gap: 30px;
+  }
+  .project__description {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .progress-bar {
+    padding: 17px 0 0 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .project {
+    padding: 70px 18px;
+  }  
+  .project__content {
+    grid-template-columns: 1fr;
+    padding: 50px 0 34px 0;
+    grid-gap: 46px;
+  } 
+  .project__subtitle {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .project__description {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .progress-bar {
+    padding: 10px 0 0 0;
+    grid-template-columns: minmax(100px,1fr) 4fr;
+  }
+  .progress-bar__item {
+    padding: 11px;
+    font-size: 11px;
+    line-height: 13px;
+  }
+  .progress-bar__description {
+    padding-top: 5px;
+    font-size: 11px;
+    line-height: 13px;
+  }
 }

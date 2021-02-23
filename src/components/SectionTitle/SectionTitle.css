@@ -11,3 +11,12 @@
   border-bottom: 1px #000 solid;
   align-self: stretch;
 }
+
+
+@media (max-width: 767px) {
+  .title {
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 28px;
+  }
+}
