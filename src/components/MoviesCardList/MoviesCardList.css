@@ -3,12 +3,13 @@
   grid-template-columns: repeat(3, 364px);;
   grid-column-gap: 24px;
   grid-row-gap: 30px;
-  padding: 0 70px;
+  padding: 70px;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .cards__more {
-  margin: 61px 70px 89px;
+  margin: 50px 70px 80px;
   width: calc( 100% - 140px );
   background-color: #F9F9F9;
   min-height: 36px;
@@ -23,4 +24,30 @@
 
 .cards__more:hover {
   background-color: #E8E8E8;;
+}
+
+
+@media (max-width: 1279px) {
+  .cards {
+    grid-template-columns: repeat(2, 339px);
+    grid-column-gap: 30px;
+    grid-row-gap: 36px;
+    padding: 70px 30px;
+  }
+  .cards__more {
+    margin: 50px 30px 80px;
+    width: calc( 100% - 60px );
+  }
+}
+
+@media (max-width: 767px) {
+  .cards {
+    grid-template-columns: repeat(1, 300px);
+    grid-row-gap: 16px;
+    padding: 40px 10px;
+  }
+  .cards__more {
+    margin: 50px 10px 80px;
+    width: calc( 100% - 20px );
+  }
 }
