@@ -27,10 +27,10 @@ function Header() {
         </nav>
         <div className={`header__cover ${!menuIsOpen && 'header__cover_hidden'}`}>
           <nav className="header__menu">
-            <NavLink to="/" className="header__menu-item">Главная</NavLink>
-            <NavLink to="/movies" className="header__menu-item" activeClassName="header__menu-item_active">Фильмы</NavLink>
-            <NavLink to="/saved-movies" className="header__menu-item" activeClassName="header__menu-item_active">Сохранённые фильмы</NavLink>
-            <NavLink to="/profile" className="header__profile">
+            <NavLink to="/" className="header__menu-item" onClick={handleCloseMenu}>Главная</NavLink>
+            <NavLink to="/movies" className="header__menu-item" activeClassName="header__menu-item_active" onClick={handleCloseMenu}>Фильмы</NavLink>
+            <NavLink to="/saved-movies" className="header__menu-item" activeClassName="header__menu-item_active" onClick={handleCloseMenu}>Сохранённые фильмы</NavLink>
+            <NavLink to="/profile" className="header__profile" onClick={handleCloseMenu}>
               <p className="header__profile-text">Аккаунт</p>
               <img src={profile} alt="Аккаунт" className="header__profile-img"/>
             </NavLink>
