@@ -272,4 +272,9 @@
   .header__profile {   
     bottom: 46px;
   }
+
+  .header__open-menu {
+    width: 38px;
+    height: 38px;
+  }
 }
