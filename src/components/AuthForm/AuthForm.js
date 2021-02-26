@@ -8,10 +8,12 @@ function AuthForm({name, submitText, linkText, link, linkSubText,...props}) {
       { 
         props.children 
       }
-      <button className="form__submit">{submitText}</button>
-      <p className="form__text">{linkSubText}
-        <NavLink className="form__link" to={link}>{linkText}</NavLink>
-      </p>
+      <div className="form__footer">
+        <button className="form__submit">{submitText}</button>
+        <p className="form__text">{linkSubText}
+          <NavLink className="form__link" to={link}>{linkText}</NavLink>
+        </p>
+      </div>
     </form>
   );
 }

@@ -22,12 +22,14 @@ function Register() {
           name="name"
           type="text"
           placeholder="Имя"
+          errorText=""
         />  
         <Input
           id="email"
           name="email"
           type="email"
           placeholder="E-mail"
+          errorText="Что-то пошло не так..."
         />  
         <Input
           id="password"

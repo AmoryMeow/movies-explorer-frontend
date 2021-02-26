@@ -1,10 +1,24 @@
 .form {
   max-width: 396px;
   width: 100%;
+  min-height: 425px;
   display: flex;
   flex-direction: column;
 }
+
+.form__footer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+}
+
 .form__submit {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
   width: 100%;
   max-width: 396px;
   min-height: 45px;
@@ -39,4 +53,27 @@
   color: #000;
   cursor: pointer;
   padding: 0 6px;
+}
+
+
+@media (max-width: 1279px) {
+  
+}
+
+@media (max-width: 767px) {
+  .form {
+    padding-top: 30px;
+  }
+  .form__submit {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .form__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .form__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
