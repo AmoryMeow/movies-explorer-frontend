@@ -8,8 +8,10 @@
 
 ## Запуск проекта
 
-`npm istall` 
-`npm start` 
+```
+npm install
+npm start
+```
 
 ## Функционал 
 
