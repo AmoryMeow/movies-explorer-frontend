@@ -18,7 +18,7 @@ function AboutMe() {
           </div>
           <ul className="aboutme__links">
             <li className="aboutme__links-item">
-              <a className="aboutme__link" href="/">Facebook</a>
+              <a className="aboutme__link" href="https://vk.com/id1280821">Facebook</a>
             </li>
             <li className="aboutme__links-item">
               <a className="aboutme__link" href="https://github.com/AmoryMeow/">Github</a>

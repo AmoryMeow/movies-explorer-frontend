@@ -22,6 +22,8 @@ function Register() {
           name="email"
           type="email"
           placeholder="E-mail"
+          minLength="5"
+          maxLength="100"
         />  
         <Input
           id="password"
@@ -29,6 +31,7 @@ function Register() {
           type="password"
           placeholder="Пароль"
           errorText="Что-то пошло не так..."
+          minLength="5"
         /> 
       </AuthForm>
 

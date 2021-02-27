@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 700px;
+  padding: 246px 70px;
   justify-content: center;
 }
 
@@ -37,4 +37,35 @@
   line-height: 17px;
   cursor: pointer;
   margin-top: 184px;
+}
+
+
+@media (max-width: 1279px) {
+  .notFound {
+    padding: 408px 70px 200px;
+  }
+}
+
+@media (max-width: 767px) {
+  .notFound {
+    min-height: -webkit-fill-available;
+    min-height: 100vh;
+    padding: 0;
+  }
+  
+  .notFound__title {
+    font-size: 80px;
+    line-height: 97px;
+  }
+  .notFound__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .notFound__button {
+    font-size: 12px;
+    line-height: 15px;
+    position: absolute;
+    bottom: 30px;    
+    margin: 0;
+  }
 }

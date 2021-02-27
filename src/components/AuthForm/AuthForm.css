@@ -55,6 +55,10 @@
   padding: 0 6px;
 }
 
+.form__link:hover {
+  text-decoration: underline;
+}
+
 
 @media (max-width: 1279px) {
   

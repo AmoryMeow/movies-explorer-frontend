@@ -101,6 +101,10 @@
   background-color: #F8F8F8;
 }
 
+.profile__button_type_save:hover {
+  background-color: rgb(200, 200, 200, .7);
+}
+
 .profile__error {
   padding: 20px;
   font-style: normal;

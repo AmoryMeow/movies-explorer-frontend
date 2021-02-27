@@ -9,7 +9,7 @@ function Footer() {
         <ul className="footer__links">
           <li className="footer__item"><a href="https://praktikum.yandex.ru/" className="footer__link">Яндекс.Практикум</a></li>
           <li className="footer__item"><a href="https://github.com/AmoryMeow/" className="footer__link">Github</a></li>
-          <li className="footer__item"><a href="/" className="footer__link">Facebook</a></li>
+          <li className="footer__item"><a href="https://vk.com/id1280821" className="footer__link">Facebook</a></li>
         </ul>
       </div>
     </footer>

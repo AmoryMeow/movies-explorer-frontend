@@ -45,8 +45,12 @@
   text-decoration: none;
   margin-left: 20px;
   box-sizing: border-box;
+  transition: ease .2s;
 }
 
+.footer__link:hover {
+  font-weight: 500;
+}
 
 @media (max-width: 1279px) {
   .footer {

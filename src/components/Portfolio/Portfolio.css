@@ -25,12 +25,17 @@
 .portfolio__item:last-of-type {
   border-bottom: none;
 }
+
 .portfolio__link {
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-decoration: none;  
   padding: 19px 0;
+}
+
+.portfolio__link:hover {
+  opacity: .7;
 }
 
 .portfolio__text {
