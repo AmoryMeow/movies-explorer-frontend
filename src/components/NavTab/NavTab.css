@@ -1,0 +1,41 @@
+.nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, max-content); 
+  grid-gap: 10px;
+  position: absolute;
+  bottom: 30px;
+}
+
+.nav__item {
+  
+}
+
+.nav__link {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  padding: 10px 17px;
+  color: #FFF;
+  background-color: #E8E8E8;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+@media (max-width: 767px) {
+  .nav {
+    bottom: 17px;
+  }
+  .nav__link {
+    font-size: 10px;
+    line-height: 1.6;
+    padding: 5px 15px;
+  }
+
+}
