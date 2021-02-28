@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory  } from 'react-router-dom';
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
@@ -10,8 +10,45 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 
+import mainApi from '../../utils/MainApi';
+
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(true);
+  const history = useHistory();
+
+  //регистрация
+  function onSubmitRegister({name, email, password}) {
+    if (!name || !email || !password) {
+      return;
+    }
+    mainApi.register(name, email, password)
+      .then((res) => {
+        if (res) {
+          console.log('res: ', res);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  //авторизация
+  function onSubmitLogin({email, password}) {
+    if (!email || !password) {
+      return;
+    }
+    mainApi.login(email, password)
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          history.push('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   return (
     <div className="page">
@@ -36,11 +73,11 @@ function App() {
         </Route>
 
         <Route path='/signup'>
-          <Register/>
+          <Register onSubmitRegister={onSubmitRegister}/>
         </Route>
 
         <Route path='/signin'>
-          <Login />
+          <Login onSubmitLogin={onSubmitLogin}/>
         </Route>
 
         <Route path="*">

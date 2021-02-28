@@ -7,7 +7,7 @@ import AuthForm from '../AuthForm/AuthForm';
 
 import { getErrorText, checkValid } from '../../utils/formValidator';
 
-function Register() {
+function Register({onSubmitRegister}) {
 
   const [formValues, setFormValues] = React.useState({
     name: '',
@@ -67,7 +67,7 @@ function Register() {
   /** действия формы **/
   function handleOnSubmit(evt) {
     evt.preventDefault();
-    console.log('formValues: ', formValues);
+    onSubmitRegister(formValues);
   }
 
   return (
