@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch, useHistory  } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
@@ -13,6 +14,8 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import mainApi from '../../utils/MainApi';
 
 function App() {
+  
+  const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(true);
   const history = useHistory();
 
@@ -24,7 +27,7 @@ function App() {
     mainApi.register(name, email, password)
       .then((res) => {
         if (res) {
-          console.log('res: ', res);
+          login(email, password);
         }
       })
       .catch(err => {
@@ -33,61 +36,98 @@ function App() {
   }
 
   //авторизация
+  function login(email, password) {
+    mainApi.login(email, password)
+    .then((res) => {
+      if (res.token) {
+        localStorage.setItem('token', res.token);
+        setLoggedIn(true);
+        getCurrentUser();
+        console.log(currentUser);
+        history.push('/movies');
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
   function onSubmitLogin({email, password}) {
     if (!email || !password) {
       return;
     }
-    mainApi.login(email, password)
+    login(email, password);
+  }
+
+  function getCurrentUser() {
+    const token = localStorage.getItem('token');
+    mainApi.getCurrentUser(token)
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          setLoggedIn(true);
-          history.push('/');
+        if (res) {
+          setCurrentUser(res)
         }
       })
       .catch(err => {
         console.log(err);
-      })
+      });
   }
 
+  /* редактирование профиля */
+  function handleSaveProfile() {
+    const token = localStorage.getItem('token');
+  }
+
+  /* выход */
+  function handleSignOut() {
+      localStorage.removeItem('token');
+      setLoggedIn(false);
+      setCurrentUser({})
+      history.push('/');
+  }
+
+  
   return (
     <div className="page">
-      { loggedIn && <Header /> }
-
-      <Switch>
-
-        <Route exact path="/">
-          <Main />
-        </Route>
-        
-        <Route path="/movies">
-          <Movies savedMovies={false}/>
-        </Route>
-
-        <Route path="/saved-movies">
-          <Movies savedMovies={true}/>
-        </Route>
-
-        <Route path="/profile">
-          <Profile/>
-        </Route>
-
-        <Route path='/signup'>
-          <Register onSubmitRegister={onSubmitRegister}/>
-        </Route>
-
-        <Route path='/signin'>
-          <Login onSubmitLogin={onSubmitLogin}/>
-        </Route>
-
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      </Switch>
+      <CurrentUserContext.Provider value={currentUser}>
       
+        { loggedIn && <Header /> }
+
+        <Switch>
+
+          <Route exact path="/">
+            <Main />
+          </Route>
+
+          <Route path="/movies">
+            <Movies savedMovies={false}/>
+          </Route>
+
+          <Route path="/saved-movies">
+            <Movies savedMovies={true}/>
+          </Route>
+
+          <Route path="/profile">
+            <Profile 
+              onSaveProfile={handleSaveProfile} 
+              onSignOut={handleSignOut}
+            />
+          </Route>
+
+            <Route path='/signup'>
+            <Register onSubmitRegister={onSubmitRegister}/>
+          </Route>
+
+          <Route path='/signin'>
+            <Login onSubmitLogin={onSubmitLogin}/>
+          </Route>
+
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
       
-      { loggedIn && <Footer /> }
-    
+        { loggedIn && <Footer /> }
+      </CurrentUserContext.Provider>
     </div>
   );
 }

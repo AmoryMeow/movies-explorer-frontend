@@ -38,6 +38,16 @@ export class MainApi {
       }))
   }
 
+  //данные пользователя
+  getCurrentUser(token) {
+    return this._getResponseData(fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        ...this._headers,
+        "Authorization" : `Bearer ${token}`
+      }
+    }))
+  }
 }
 
 const mainApi = new MainApi({
