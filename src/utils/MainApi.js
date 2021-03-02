@@ -38,6 +38,17 @@ export class MainApi {
       }))
   }
 
+  //провека токена
+  checkToken(token) {
+    return this._getResponseData(fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        ...this._headers,
+        "Authorization" : `Bearer ${token}`
+      }
+    }))
+  }
+
   //данные пользователя
   getCurrentUser(token) {
     return this._getResponseData(fetch(`${this._baseUrl}/users/me`, {

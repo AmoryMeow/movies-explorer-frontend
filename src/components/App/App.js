@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import './App.css';
 import Main from '../Main/Main';
@@ -16,8 +16,28 @@ import mainApi from '../../utils/MainApi';
 function App() {
   
   const [currentUser, setCurrentUser] = React.useState({});
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
+  let location = useLocation();
+ 
+  //проверка токена
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mainApi.checkToken(token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            getCurrentUser();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          localStorage.removeItem('token')
+          history.push('/');
+        });
+    }
+  }, [])
 
   //регистрация
   function onSubmitRegister({name, email, password}) {
@@ -43,7 +63,6 @@ function App() {
         localStorage.setItem('token', res.token);
         setLoggedIn(true);
         getCurrentUser();
-        console.log(currentUser);
         history.push('/movies');
       }
     })
@@ -90,7 +109,7 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
       
-        { loggedIn && <Header /> }
+        { (loggedIn || location.pathname === '/') && <Header loggedIn={loggedIn}/> }
 
         <Switch>
 
@@ -126,7 +145,7 @@ function App() {
           </Route>
         </Switch>
       
-        { loggedIn && <Footer /> }
+        { (loggedIn || location.pathname === '/') && <Footer /> }
       </CurrentUserContext.Provider>
     </div>
   );

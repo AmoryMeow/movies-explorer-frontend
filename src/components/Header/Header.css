@@ -22,6 +22,14 @@
   align-items: center;
 }
 
+.header__auth_hidden {
+  display: none;
+}
+
+.header__cover_hidden {
+  display: none;
+}
+
 .header__menu {
   display: flex;
   align-items: center;
@@ -210,7 +218,8 @@
     transition: visibility .3s, opacity .3s linear;
   }
 
-  .header__cover_hidden {
+  .header__cover_close {
+    display: block;
     visibility: hidden;
     opacity: 0;
     transition: visibility .3s, opacity .3s ease;
@@ -250,6 +259,10 @@
     display: flex;
   }
 
+  .header__open-menu_hidden {
+    display: none;
+  }
+  
   .header__line {
     display: block;
   }
