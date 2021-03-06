@@ -13,15 +13,17 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
 
 
 function App() {
-  
+
+  /*** авторизация, регистрация ***/
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
   let location = useLocation();
- 
+
   //проверка токена
   React.useEffect(() => {
     const token = localStorage.getItem('token');
@@ -80,7 +82,7 @@ function App() {
     login(email, password);
   }
 
-  /* получить данные текущего пользователя */
+  // получить данные текущего пользователя 
   function getCurrentUser() {
     const token = localStorage.getItem('token');
     mainApi.getCurrentUser(token)
@@ -94,7 +96,7 @@ function App() {
       });
   }
 
-  /* редактирование профиля */
+  // редактирование профиля 
   function handleSaveProfile(data) {
     
     mainApi.saveProfile(data)
@@ -104,7 +106,7 @@ function App() {
       .catch((err) => console.log(err))
   }
 
-  /* выход */
+  // выход 
   function handleSignOut() {
       localStorage.removeItem('token');
       setLoggedIn(false);
@@ -112,7 +114,34 @@ function App() {
       history.push('/');
   }
 
+  /*** поиск фильма ***/
+
+  const [initialMoveis, setInitialMovies] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
+  const [query, setQuery] = React.useState('');
   
+  React.useEffect(() => {
+    filterMovies(initialMoveis, query)
+  }, [initialMoveis, query]);
+
+  function filterMovies(data, query) {
+    const regex = new RegExp(query,'gi');
+    const filterArray = data.filter((item) => {
+      return regex.test(item.nameRU) || regex.test(item.nameEn);
+    });
+    setMovies(filterArray);
+  }
+
+  function onSubmitSearch(query) {
+    moviesApi.getMovies()
+    .then((data) => {
+      if (data) {
+        setInitialMovies(data);
+        setQuery(query);
+      }
+    })
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -128,13 +157,15 @@ function App() {
           <ProtectedRoute exact path="/movies" 
             loggedIn={loggedIn} 
             component={Movies}   
-            savedMovies={false}       
+            savedMovies={false} 
+            onSubmitSearch={onSubmitSearch}   
+            movies={movies}
           />
 
           <ProtectedRoute exact path="/saved-movies" 
             loggedIn={loggedIn} 
             component={Movies}   
-            savedMovies={true}       
+            savedMovies={true}
           />
 
           <ProtectedRoute exact path="/profile" 

@@ -2,20 +2,27 @@ import React from 'react';
 import card from '../../images/card.png';
 import './MoviesCard.css';
 
-function MoviesCard({savedMovies}) {
+function MoviesCard({savedMovies, movie }) {
 
+  const { nameRU, duration, trailerLink, image } = movie;
   const [isMarked, setIsMarked] = React.useState(true);
 
+  function durationFormat(duration) {
+    const hh = Math.trunc(duration / 60)
+    const mm = duration % 60;
+    return `${hh}ч ${mm}м`
+  }
+  
   function handleBookmarkClick() {
     setIsMarked(!isMarked);
   }
 
   return (
-    <article className="card">
+    <a href={trailerLink} target="_blank" rel="noopener noreferrer" className="card">
       <div className="card__container">
         <div className="card__heading">
-          <h2 className="card__title">33 слова о дизайне</h2>
-          <p className="card__duration">1ч 47м</p>
+          <h2 className="card__title">{nameRU}</h2>
+          <p className="card__duration">{durationFormat(duration)}</p>
         </div>
        { savedMovies ? (
           <div className="card__delete"></div>
@@ -30,8 +37,8 @@ function MoviesCard({savedMovies}) {
           </button>
         )}     
       </div>
-      <img className="card__img" src={card} alt="Обложка"/>
-    </article>
+      <img className="card__img" src={`https://api.nomoreparties.co${image ? image.url : ''}`} alt="Обложка"/>
+    </a>
   );
 }
 
