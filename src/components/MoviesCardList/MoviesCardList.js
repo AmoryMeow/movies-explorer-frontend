@@ -3,6 +3,7 @@ import './MoviesCardList.css';
 
 function MoviesCardList({ savedMovies, movies }) {
   
+  
   return (
     <>
       <section className="cards">
@@ -10,6 +11,7 @@ function MoviesCardList({ savedMovies, movies }) {
       {
         movies.map((movie) => (
           <MoviesCard 
+            savedMovies={savedMovies}
             key={movie.id}
             movie={movie}
           />
@@ -17,7 +19,8 @@ function MoviesCardList({ savedMovies, movies }) {
       }
 
       </section>
-      <div className="cards__more">Ещё</div>
+      {/* <div className="cards__more">Ещё</div> */}
+      
     </>
   );
 }

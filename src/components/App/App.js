@@ -18,6 +18,10 @@ import moviesApi from '../../utils/MoviesApi';
 
 function App() {
 
+  /*** статус загрузки ***/
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [loadingError, setLoadingError] = React.useState('');
+
   /*** авторизация, регистрация ***/
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -129,16 +133,27 @@ function App() {
     const filterArray = data.filter((item) => {
       return regex.test(item.nameRU) || regex.test(item.nameEn);
     });
+    if (filterArray.length === 0) {
+      setLoadingError('Ничего не найдено')
+    } 
     setMovies(filterArray);
   }
 
   function onSubmitSearch(query) {
+    setIsLoading(true);
+    setLoadingError('');
     moviesApi.getMovies()
     .then((data) => {
       if (data) {
         setInitialMovies(data);
         setQuery(query);
       }
+    })
+    .catch(() => {
+      setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+    })
+    .finally(() => {
+      setIsLoading(false)
     })
   }
 
@@ -156,6 +171,8 @@ function App() {
 
           <ProtectedRoute exact path="/movies" 
             loggedIn={loggedIn} 
+            isLoading={isLoading}
+            loadingError={loadingError}
             component={Movies}   
             savedMovies={false} 
             onSubmitSearch={onSubmitSearch}   
