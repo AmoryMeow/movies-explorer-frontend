@@ -10,8 +10,10 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import mainApi from '../../utils/MainApi';
+
 
 function App() {
   
@@ -123,22 +125,26 @@ function App() {
             <Main />
           </Route>
 
-          <Route path="/movies">
-            <Movies savedMovies={false}/>
-          </Route>
+          <ProtectedRoute exact path="/movies" 
+            loggedIn={loggedIn} 
+            component={Movies}   
+            savedMovies={false}       
+          />
 
-          <Route path="/saved-movies">
-            <Movies savedMovies={true}/>
-          </Route>
+          <ProtectedRoute exact path="/saved-movies" 
+            loggedIn={loggedIn} 
+            component={Movies}   
+            savedMovies={true}       
+          />
 
-          <Route path="/profile">
-            <Profile 
-              onSaveProfile={handleSaveProfile} 
-              onSignOut={handleSignOut}
-            />
-          </Route>
+          <ProtectedRoute exact path="/profile" 
+            loggedIn={loggedIn} 
+            component={Profile}   
+            onSaveProfile={handleSaveProfile} 
+            onSignOut={handleSignOut}
+          />
 
-            <Route path='/signup'>
+          <Route path='/signup'>
             <Register onSubmitRegister={onSubmitRegister}/>
           </Route>
 
@@ -152,6 +158,7 @@ function App() {
         </Switch>
       
         { (loggedIn || location.pathname === '/') && <Footer /> }
+
       </CurrentUserContext.Provider>
     </div>
   );
