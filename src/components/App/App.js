@@ -37,7 +37,7 @@ function App() {
           history.push('/');
         });
     }
-  }, [])
+  }, []);
 
   //регистрация
   function onSubmitRegister({name, email, password}) {
@@ -78,6 +78,7 @@ function App() {
     login(email, password);
   }
 
+  /* получить данные текущего пользователя */
   function getCurrentUser() {
     const token = localStorage.getItem('token');
     mainApi.getCurrentUser(token)
@@ -92,8 +93,13 @@ function App() {
   }
 
   /* редактирование профиля */
-  function handleSaveProfile() {
-    const token = localStorage.getItem('token');
+  function handleSaveProfile(data) {
+    
+    mainApi.saveProfile(data)
+      .then((profile) => {
+        setCurrentUser(profile);
+      })
+      .catch((err) => console.log(err))
   }
 
   /* выход */

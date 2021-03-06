@@ -59,6 +59,21 @@ export class MainApi {
       }
     }))
   }
+
+  saveProfile(data) {
+    const token = localStorage.getItem('token');
+    return this._getResponseData(fetch(`${this._baseUrl}/users/me`, {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          "Authorization" : `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email
+        })
+      }))
+  }
 }
 
 const mainApi = new MainApi({
