@@ -6,6 +6,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm({onSubmitSearch, onFilterShort}) {
   
   const [query, setQuery] = React.useState('');
+  const [isSubmitDisabled, setIsSubmitDisabled] = React.useState(false);
 
   function handleOnChange(evt) {
     setQuery(evt.target.value);
@@ -16,11 +17,15 @@ function SearchForm({onSubmitSearch, onFilterShort}) {
     onSubmitSearch(query);
   }
 
+  React.useEffect(() => {
+    setIsSubmitDisabled(query === '');
+  }, [query])
+
   return (
     <section className="search">
       <form name="search" className="search__form" onSubmit={handleOnSubmit}>
-        <input className="search__input" placeholder="Фильм" onChange={handleOnChange}/>
-        <button className="search__button">
+        <input required className="search__input" placeholder="Фильм" onChange={handleOnChange}/>
+        <button className={`search__button ${isSubmitDisabled && 'search__button_disabled'}`} disabled={isSubmitDisabled}>
           <img className="search__img" src={search} alt="Искать"/>
         </button>
       </form>
