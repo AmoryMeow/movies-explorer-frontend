@@ -123,15 +123,16 @@ function App() {
   const [initialMoveis, setInitialMovies] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
   const [query, setQuery] = React.useState('');
+  const [shortFilm, setShortFilm] = React.useState(false);
   
   React.useEffect(() => {
-    filterMovies(initialMoveis, query)
-  }, [initialMoveis, query]);
+    filterMovies(initialMoveis, query, shortFilm)
+  }, [initialMoveis, query, shortFilm]);
 
-  function filterMovies(data, query) {
+  function filterMovies(data, query, shortFilm) {
     const regex = new RegExp(query,'gi');
     const filterArray = data.filter((item) => {
-      return regex.test(item.nameRU) || regex.test(item.nameEn);
+      return shortFilm ? item.duration < 40 : true && (regex.test(item.nameRU) || regex.test(item.nameEN));
     });
     if (filterArray.length === 0) {
       setLoadingError('Ничего не найдено')
@@ -157,6 +158,11 @@ function App() {
     })
   }
 
+  // отбор короткометражек
+  function onFilterShort(filterOn) {
+    setShortFilm(filterOn);
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -175,8 +181,9 @@ function App() {
             loadingError={loadingError}
             component={Movies}   
             savedMovies={false} 
-            onSubmitSearch={onSubmitSearch}   
             movies={movies}
+            onSubmitSearch={onSubmitSearch}
+            onFilterShort={onFilterShort}
           />
 
           <ProtectedRoute exact path="/saved-movies" 

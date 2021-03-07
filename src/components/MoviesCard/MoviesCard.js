@@ -10,7 +10,7 @@ function MoviesCard({savedMovies, movie }) {
   function durationFormat(duration) {
     const hh = Math.trunc(duration / 60)
     const mm = duration % 60;
-    return `${hh}ч ${mm}м`
+    return `${hh>0 ? hh+'ч ' : ''}${mm}м`
   }
   
   function handleBookmarkClick() {

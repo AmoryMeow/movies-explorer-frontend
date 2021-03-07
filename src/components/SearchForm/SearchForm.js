@@ -3,7 +3,7 @@ import './SearchForm.css';
 import search from '../../images/search.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({onSubmitSearch}) {
+function SearchForm({onSubmitSearch, onFilterShort}) {
   
   const [query, setQuery] = React.useState('');
 
@@ -25,7 +25,7 @@ function SearchForm({onSubmitSearch}) {
         </button>
       </form>
       <div className="search__short">
-        <FilterCheckbox/>
+        <FilterCheckbox onFilter={onFilterShort}/>
         <p className="search__filter-text">Короткометражки</p>
       </div>
     </section>

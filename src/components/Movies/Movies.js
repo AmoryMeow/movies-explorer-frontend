@@ -3,11 +3,12 @@ import './Movies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
-function Movies({ savedMovies, onSubmitSearch, movies, isLoading, loadingError }) {
+function Movies({ savedMovies, onSubmitSearch, movies, isLoading, loadingError, onFilterShort }) {
   return (
     <section>
       <SearchForm 
         onSubmitSearch={onSubmitSearch} 
+        onFilterShort={onFilterShort}
       />
       
       {isLoading && <Preloader/>}
