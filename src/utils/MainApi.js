@@ -74,6 +74,20 @@ export class MainApi {
         })
       }))
   }
+
+    //все фильмы
+    getMoveis() {
+      const token = localStorage.getItem('token');
+      return this._getResponseData(fetch(`${this._baseUrl}/movies`, {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          "Authorization" : `Bearer ${token}`
+        }
+      }))
+    }
+  
+
 }
 
 const mainApi = new MainApi({

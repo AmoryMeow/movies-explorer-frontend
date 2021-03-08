@@ -120,47 +120,89 @@ function App() {
 
   /*** поиск фильма ***/
 
-  const [initialMoveis, setInitialMovies] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
   const [query, setQuery] = React.useState('');
   const [shortFilm, setShortFilm] = React.useState(false);
-  
-  React.useEffect(() => {
-    filterMovies(initialMoveis, query, shortFilm)
-  }, [initialMoveis, query, shortFilm]);
+  const [updateMovies, setUpdateMovies]= React.useState(false);
+  const [updateSavedMovies, setUpdateSavedMovies]= React.useState(false);
 
+  React.useEffect(() => {
+
+    Promise.all([moviesApi.getMovies(), mainApi.getMoveis()])
+      .then((allData) => {
+        const [initial, saved] = allData;
+
+        const initialArray = initial.map((item) => {
+          const movieId = item.id;
+          const movie = saved.find((savedMovie) => {
+            return savedMovie.movieId === movieId;
+          });
+          if (movie) {
+            return {...item, saved: true}
+          } else {
+            return {...item, saved: false}
+          }
+        });
+
+        const savedArray = saved.map((item) => {
+          return {...item, id: item.movieId}
+        })
+
+        localStorage.setItem('initialMovies', JSON.stringify(initialArray));
+        localStorage.setItem('savedMovies', JSON.stringify(savedArray));
+
+      })
+      .catch((err) => {
+        console.log('err: ', err);
+      })
+  }, [])
+  
   function filterMovies(data, query, shortFilm) {
     const regex = new RegExp(query,'gi');
-    const filterArray = data.filter((item) => {
+    let filterData = data.filter((item) => {
       return shortFilm ? item.duration < 40 : true && (regex.test(item.nameRU) || regex.test(item.nameEN));
     });
-    if (filterArray.length === 0) {
-      setLoadingError('Ничего не найдено')
-    } 
-    setMovies(filterArray);
+    return filterData;
   }
+
+  React.useEffect(() => {
+
+    if (updateMovies) {
+      const initialMovies = JSON.parse(localStorage.getItem('initialMovies'));
+      const filterData = filterMovies(initialMovies, query, shortFilm);
+      setMovies(filterData);
+      setUpdateMovies(false);
+    }
+
+    if (updateSavedMovies) {
+      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      const filterData = filterMovies(savedMovies, query, shortFilm);
+      setSavedMovies(filterData);
+      setUpdateSavedMovies(false);
+    }
+
+  }, [updateMovies, updateSavedMovies]);
+
 
   function onSubmitSearch(query) {
-    setIsLoading(true);
-    setLoadingError('');
-    moviesApi.getMovies()
-    .then((data) => {
-      if (data) {
-        setInitialMovies(data);
-        setQuery(query);
-      }
-    })
-    .catch(() => {
-      setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-    })
-    .finally(() => {
-      setIsLoading(false)
-    })
+    setQuery(query);
+    setUpdateMovies(true);
   }
 
-  // отбор короткометражек
+  function onSubmitSearchSaved(query) {
+    setQuery(query);
+    setUpdateSavedMovies(true);
+  }
+
   function onFilterShort(filterOn) {
     setShortFilm(filterOn);
+    setUpdateMovies(true);
+  }
+
+  function onFilterShortSaved(filterOn) {
+    setShortFilm(filterOn);
+    setUpdateSavedMovies(true);
   }
 
   return (
@@ -188,8 +230,13 @@ function App() {
 
           <ProtectedRoute exact path="/saved-movies" 
             loggedIn={loggedIn} 
+            isLoading={isLoading}
+            loadingError={loadingError}
             component={Movies}   
             savedMovies={true}
+            movies={savedMovies}
+            onSubmitSearch={onSubmitSearchSaved}
+            onFilterShort={onFilterShortSaved}
           />
 
           <ProtectedRoute exact path="/profile" 

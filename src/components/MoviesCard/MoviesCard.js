@@ -6,13 +6,23 @@ function MoviesCard({savedMovies, movie }) {
 
   const { nameRU, duration, trailerLink, image } = movie;
   const [isMarked, setIsMarked] = React.useState(true);
+  const [imageURL, setImageURL] = React.useState('');
 
   function durationFormat(duration) {
     const hh = Math.trunc(duration / 60)
     const mm = duration % 60;
     return `${hh>0 ? hh+'ч ' : ''}${mm}м`
   }
-  
+
+  React.useEffect(() => {
+    setIsMarked(movie.saved)
+    if (!savedMovies) {
+      setImageURL(`https://api.nomoreparties.co${image ? image.url : ''}`);
+    } else {
+      setImageURL(`https://api.nomoreparties.co${image ? image : ''}`);
+    }
+  }, [movie])
+
   function handleBookmarkClick() {
     setIsMarked(!isMarked);
   }
@@ -37,7 +47,7 @@ function MoviesCard({savedMovies, movie }) {
           </button>
         )}     
       </div>
-      <img className="card__img" src={`https://api.nomoreparties.co${image ? image.url : ''}`} alt="Обложка"/>
+      <img className="card__img" src={imageURL} alt="Обложка"/>
     </a>
   );
 }
