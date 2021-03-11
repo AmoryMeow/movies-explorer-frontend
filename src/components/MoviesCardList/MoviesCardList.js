@@ -2,7 +2,7 @@ import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({ savedMovies, movies }) {
+function MoviesCardList({ savedMovies, movies, onBookmarkClick, isSavedMovie }) {
     
   const [extraPortion, setExtraPortion] = React.useState(3);
   const [currentCount, setCurrenCount] = React.useState(0);
@@ -65,6 +65,8 @@ function MoviesCardList({ savedMovies, movies }) {
             savedMovies={savedMovies}
             key={movie.id}
             movie={movie}
+            onBookmarkClick={onBookmarkClick}
+            isSavedMovie={isSavedMovie}
           />
         ))
       }

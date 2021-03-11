@@ -87,7 +87,40 @@ export class MainApi {
       }))
     }
   
+    createMovie(data) {
+      const token = localStorage.getItem('token');
+      return this._getResponseData(fetch(`${this._baseUrl}/movies`, {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          "Authorization" : `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          country: data.country,
+          director: data.director,
+          duration: data.duration,
+          year: data.year,
+          description: data.description,
+          image: data.image,
+          trailer: data.trailer,
+          thumbnail: data.image,
+          movieId: data.id,
+          nameRU: data.nameRU,
+          nameEN: data.nameEN,
+        })
+      }))
+    }
 
+    deleteMovies(movieId) {
+      const token = localStorage.getItem('token');
+      return this._getResponseData(fetch(`${this._baseUrl}/movies/${movieId}`, {
+        method: 'DELETE',
+        headers: {
+          ...this._headers,
+          "Authorization" : `Bearer ${token}`
+        }
+      }))
+    }
 }
 
 const mainApi = new MainApi({

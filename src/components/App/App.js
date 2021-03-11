@@ -119,91 +119,112 @@ function App() {
   }
 
   /*** поиск фильма ***/
-
-  const [movies, setMovies] = React.useState([]);
+  const [initialMovies, setInitialMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [filterMovies, setFilterMovies] = React.useState([]);
+  const [filterSavedMovies, setFilterSavedMovies] = React.useState([]);
   const [query, setQuery] = React.useState('');
-  const [shortFilm, setShortFilm] = React.useState(false);
-  const [updateMovies, setUpdateMovies]= React.useState(false);
-  const [updateSavedMovies, setUpdateSavedMovies]= React.useState(false);
 
   React.useEffect(() => {
-
-    Promise.all([moviesApi.getMovies(), mainApi.getMoveis()])
-      .then((allData) => {
-        const [initial, saved] = allData;
-
-        const initialArray = initial.map((item) => {
-          const movieId = item.id;
-          const movie = saved.find((savedMovie) => {
-            return savedMovie.movieId === movieId;
-          });
-          if (movie) {
-            return {...item, saved: true}
-          } else {
-            return {...item, saved: false}
+  
+    const initial = JSON.parse(localStorage.getItem('initialMovies'));
+    if (initial) {
+      setInitialMovies(initial);
+    } else {
+      moviesApi.getMovies()
+      .then((data) => {
+        const initialArray = data.map((item) => {
+          const imageURL = item.image ? item.image.url : '';
+          return {
+            ...item, 
+            image: `https://api.nomoreparties.co${imageURL}`,
+            trailer: item.trailerLink,
           }
-        });
-
-        const savedArray = saved.map((item) => {
-          return {...item, id: item.movieId}
         })
 
         localStorage.setItem('initialMovies', JSON.stringify(initialArray));
+        setInitialMovies(initialArray);
+      })
+    }
+    localStorage.removeItem('savedMovies')
+    const saved = JSON.parse(localStorage.getItem('savedMovies'));
+    if (saved) {
+      setSavedMovies(saved)
+    } else {
+      mainApi.getMoveis()
+      .then((data) => {
+        const savedArray = data.map((item) => {
+          return {...item, id: item.movieId}
+        })
         localStorage.setItem('savedMovies', JSON.stringify(savedArray));
+        setSavedMovies(savedArray);
+      })
+    }
 
-      })
-      .catch((err) => {
-        console.log('err: ', err);
-      })
   }, [])
-  
-  function filterMovies(data, query, shortFilm) {
-    const regex = new RegExp(query,'gi');
-    let filterData = data.filter((item) => {
-      return shortFilm ? item.duration < 40 : true && (regex.test(item.nameRU) || regex.test(item.nameEN));
-    });
-    return filterData;
+
+
+  function isSavedMovie(movie) {
+    return savedMovies.some((item) => item.id === movie.id)
   }
 
-  React.useEffect(() => {
-
-    if (updateMovies) {
-      const initialMovies = JSON.parse(localStorage.getItem('initialMovies'));
-      const filterData = filterMovies(initialMovies, query, shortFilm);
-      setMovies(filterData);
-      setUpdateMovies(false);
+  function filter(data, query) {
+    if (query) {
+      const regex = new RegExp(query,'gi');
+      let filterData = data.filter((item) => {
+        return regex.test(item.nameRU) || regex.test(item.nameEN);
+      });
+      return filterData;
     }
-
-    if (updateSavedMovies) {
-      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-      const filterData = filterMovies(savedMovies, query, shortFilm);
-      setSavedMovies(filterData);
-      setUpdateSavedMovies(false);
-    }
-
-  }, [updateMovies, updateSavedMovies]);
-
+    return [];
+  }
 
   function onSubmitSearch(query) {
     setQuery(query);
-    setUpdateMovies(true);
+    setFilterMovies(filter(initialMovies, query));
   }
 
   function onSubmitSearchSaved(query) {
     setQuery(query);
-    setUpdateSavedMovies(true);
+    setFilterSavedMovies(filter(savedMovies, query));
   }
 
-  function onFilterShort(filterOn) {
-    setShortFilm(filterOn);
-    setUpdateMovies(true);
+  //избранное
+  function onBookmarkClick(movie, isMarked) {
+  
+    if (isMarked) {
+      addMovie(movie);
+    } else {
+      deleteMovie(movie);
+    }
   }
 
-  function onFilterShortSaved(filterOn) {
-    setShortFilm(filterOn);
-    setUpdateSavedMovies(true);
+  //удаление из избранного
+  function deleteMovie(movie) {
+    const movieId = savedMovies.find((item) => item.id === movie.id)._id;
+    mainApi.deleteMovies(movieId)
+    .then((res) => {
+      if (res) {
+        const newArray = savedMovies.filter((item) => item.movieId!== res.movieId);
+        setSavedMovies(newArray);
+      }
+    })
+    .catch((err) => console.log(err))
   }
+
+  //добавление в избранное
+  function addMovie(movie) {
+    mainApi.createMovie(movie)
+    .then((res) => {
+      setSavedMovies([...savedMovies, {...res, id: res.movieId}])
+   })
+    .catch((err) => console.log(err))
+  }
+  
+  React.useEffect(() => {
+    setFilterSavedMovies(filter(savedMovies, query));
+    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+  }, [savedMovies])
 
   return (
     <div className="page">
@@ -223,9 +244,10 @@ function App() {
             loadingError={loadingError}
             component={Movies}   
             savedMovies={false} 
-            movies={movies}
+            movies={filterMovies}
             onSubmitSearch={onSubmitSearch}
-            onFilterShort={onFilterShort}
+            onBookmarkClick={onBookmarkClick}
+            isSavedMovie={isSavedMovie}
           />
 
           <ProtectedRoute exact path="/saved-movies" 
@@ -234,9 +256,10 @@ function App() {
             loadingError={loadingError}
             component={Movies}   
             savedMovies={true}
-            movies={savedMovies}
+            movies={filterSavedMovies}
             onSubmitSearch={onSubmitSearchSaved}
-            onFilterShort={onFilterShortSaved}
+            onBookmarkClick={onBookmarkClick}
+            isSavedMovie={isSavedMovie}
           />
 
           <ProtectedRoute exact path="/profile" 
