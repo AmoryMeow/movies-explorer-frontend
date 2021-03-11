@@ -21,7 +21,7 @@ function App() {
   /*** статус загрузки ***/
   const [isLoading, setIsLoading] = React.useState(false);
   const [loadingError, setLoadingError] = React.useState('');
-
+  
   /*** авторизация, регистрация ***/
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -102,7 +102,6 @@ function App() {
 
   // редактирование профиля 
   function handleSaveProfile(data) {
-    
     mainApi.saveProfile(data)
       .then((profile) => {
         setCurrentUser(profile);
@@ -146,7 +145,7 @@ function App() {
         setInitialMovies(initialArray);
       })
     }
-    localStorage.removeItem('savedMovies')
+    
     const saved = JSON.parse(localStorage.getItem('savedMovies'));
     if (saved) {
       setSavedMovies(saved)
@@ -174,19 +173,32 @@ function App() {
       let filterData = data.filter((item) => {
         return regex.test(item.nameRU) || regex.test(item.nameEN);
       });
+      if (filterData.length === 0) {
+        setLoadingError('Ничего не найдено');
+      } else {
+        setLoadingError('');
+      }
       return filterData;
     }
     return [];
   }
 
   function onSubmitSearch(query) {
-    setQuery(query);
-    setFilterMovies(filter(initialMovies, query));
+    setIsLoading(true);
+    setTimeout(() => {
+      setQuery(query);
+      setFilterMovies(filter(initialMovies, query));
+      setIsLoading(false);
+    }, 500)
   }
 
   function onSubmitSearchSaved(query) {
-    setQuery(query);
-    setFilterSavedMovies(filter(savedMovies, query));
+    setIsLoading(true);
+    setTimeout(() => {
+      setQuery(query);
+      setFilterSavedMovies(filter(savedMovies, query));
+      setIsLoading(false);
+    }, 500)
   }
 
   //избранное
