@@ -14,6 +14,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import Popup from '../Popup/Popup';
 
 
 function App() {
@@ -59,7 +60,13 @@ function App() {
         }
       })
       .catch(err => {
-        console.log(err);
+        if (err.status === 409) {
+          setTextPopup('Пользователь с таким email уже существует');
+          setIsInfoPopupOpen(true);
+        } else {
+          setTextPopup('При регистрации пользователя произошла ошибка');
+          setIsInfoPopupOpen(true);
+        }
       })
   }
 
@@ -75,7 +82,13 @@ function App() {
       }
     })
     .catch(err => {
-      console.log(err);
+      if (err.status === 400) {
+        setTextPopup('Неверный email или пароль');
+        setIsInfoPopupOpen(true);
+      } else {
+        setTextPopup('При авторизации произошла ошибка');
+        setIsInfoPopupOpen(true);
+      }
     })
   }
 
@@ -105,8 +118,17 @@ function App() {
     mainApi.saveProfile(data)
       .then((profile) => {
         setCurrentUser(profile);
+        setTextPopup('Профиль успешно обновлен');
+        setIsInfoPopupOpen(true);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        if (err.status === 409) {
+          setTextPopup('Пользователь с таким email уже существует');
+        } else {
+          setTextPopup('При обновлении профиля произошла ошибка');
+        }
+        setIsInfoPopupOpen(true);
+      })
   }
 
   // выход 
@@ -125,7 +147,7 @@ function App() {
   const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
-  
+
     const initial = JSON.parse(localStorage.getItem('initialMovies'));
     if (initial) {
       setInitialMovies(initial);
@@ -144,6 +166,10 @@ function App() {
         localStorage.setItem('initialMovies', JSON.stringify(initialArray));
         setInitialMovies(initialArray);
       })
+      .catch((err) => {
+        localStorage.removeItem('initialMovies');
+        setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+      })
     }
     
     const saved = JSON.parse(localStorage.getItem('savedMovies'));
@@ -157,6 +183,10 @@ function App() {
         })
         localStorage.setItem('savedMovies', JSON.stringify(savedArray));
         setSavedMovies(savedArray);
+      })
+      .catch((err) => {
+        localStorage.removeItem('savedMovies');
+        setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
       })
     }
 
@@ -221,7 +251,10 @@ function App() {
         setSavedMovies(newArray);
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setTextPopup('На сервере произошла ошибка');
+      setIsInfoPopupOpen(true);
+    })
   }
 
   //добавление в избранное
@@ -230,13 +263,25 @@ function App() {
     .then((res) => {
       setSavedMovies([...savedMovies, {...res, id: res.movieId}])
    })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setTextPopup('На сервере произошла ошибка');
+      setIsInfoPopupOpen(true);
+    })
   }
   
   React.useEffect(() => {
     setFilterSavedMovies(filter(savedMovies, query));
     localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
   }, [savedMovies])
+
+  /*** попап ***/
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false);
+  const [textPopup, setTextPopup] = React.useState('');
+
+  function onClosePopup() {
+    setIsInfoPopupOpen(false);
+    setTextPopup('');
+  }
 
   return (
     <div className="page">
@@ -295,6 +340,12 @@ function App() {
         </Switch>
       
         { (loggedIn || location.pathname === '/') && <Footer /> }
+
+        <Popup 
+          title={textPopup} 
+          isOpenPopup={isInfoPopupOpen} 
+          onClosePopup={onClosePopup}
+        />
 
       </CurrentUserContext.Provider>
     </div>
