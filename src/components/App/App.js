@@ -106,6 +106,7 @@ function App() {
       .then((res) => {
         if (res) {
           setCurrentUser(res)
+          localStorage.setItem('currentUser', JSON.stringify(res));
         }
       })
       .catch(err => {
@@ -134,6 +135,7 @@ function App() {
   // выход 
   function handleSignOut() {
       localStorage.removeItem('token');
+      localStorage.removeItem('currentUser');
       setLoggedIn(false);
       setCurrentUser({})
       history.push('/');
