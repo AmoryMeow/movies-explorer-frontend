@@ -138,6 +138,14 @@ function App() {
       localStorage.removeItem('currentUser');
       setLoggedIn(false);
       setCurrentUser({})
+
+      localStorage.removeItem('initialMovies');
+      localStorage.removeItem('savedMovies');
+      setInitialMovies([]);
+      setSavedMovies([]);
+      setFilterMovies([]);
+      setFilterSavedMovies([]);
+
       history.push('/');
   }
 
@@ -148,37 +156,31 @@ function App() {
   const [filterSavedMovies, setFilterSavedMovies] = React.useState([]);
   const [query, setQuery] = React.useState('');
 
-  React.useEffect(() => {
+  function getInitialMovies() {
 
-    const initial = JSON.parse(localStorage.getItem('initialMovies'));
-    if (initial) {
-      setInitialMovies(initial);
-    } else {
-      moviesApi.getMovies()
-      .then((data) => {
-        const initialArray = data.map((item) => {
-          const imageURL = item.image ? item.image.url : '';
-          return {
-            ...item, 
-            image: `https://api.nomoreparties.co${imageURL}`,
-            trailer: item.trailerLink,
-          }
-        })
+    moviesApi.getMovies()
+    .then((data) => {
+      const initialArray = data.map((item) => {
+        const imageURL = item.image ? item.image.url : '';
+        return {
+          ...item, 
+          image: `https://api.nomoreparties.co${imageURL}`,
+          trailer: item.trailerLink,
+        }
+      })
 
-        localStorage.setItem('initialMovies', JSON.stringify(initialArray));
-        setInitialMovies(initialArray);
-      })
-      .catch((err) => {
-        localStorage.removeItem('initialMovies');
-        setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-      })
-    }
-    
-    const saved = JSON.parse(localStorage.getItem('savedMovies'));
-    if (saved) {
-      setSavedMovies(saved)
-    } else {
-      mainApi.getMoveis()
+      localStorage.setItem('initialMovies', JSON.stringify(initialArray));
+      setInitialMovies(initialArray);
+    })
+    .catch((err) => {
+      localStorage.removeItem('initialMovies');
+      setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+    })
+
+  }
+
+  function getSavedMovies() {
+    mainApi.getMoveis()
       .then((data) => {
         const savedArray = data.map((item) => {
           return {...item, id: item.movieId}
@@ -190,9 +192,32 @@ function App() {
         localStorage.removeItem('savedMovies');
         setLoadingError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
       })
+  }
+
+  React.useEffect(() => {
+    const initial = JSON.parse(localStorage.getItem('initialMovies'));
+    if (initial) {
+      setInitialMovies(initial);
+    } else {
+      getInitialMovies();
     }
 
+    const saved = JSON.parse(localStorage.getItem('savedMovies'));
+    if (saved) {
+      setSavedMovies(saved)
+    } else {
+      getSavedMovies(); 
+    } 
   }, [])
+
+  React.useEffect(() => {
+
+    if (loggedIn) {
+      //после авторизации обновим данные для текущего пользователя
+      getInitialMovies();
+      getSavedMovies();
+    }
+  }, [loggedIn])
 
 
   function isSavedMovie(movie) {
