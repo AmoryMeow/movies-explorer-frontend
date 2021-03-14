@@ -28,9 +28,11 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
   let location = useLocation();
-
+  
   //проверка токена
   React.useEffect(() => {
+    
+    const path = location.pathname;
     const token = localStorage.getItem('token');
     if (token) {
       mainApi.checkToken(token)
@@ -38,6 +40,7 @@ function App() {
           if (res) {
             setLoggedIn(true);
             getCurrentUser();
+            history.push(path);
           }
         })
         .catch((err) => {
@@ -227,7 +230,7 @@ function App() {
   function filter(data, query) {
     if (query) {
       const regex = new RegExp(query,'gi');
-      let filterData = data.filter((item) => {
+      const filterData = data.filter((item) => {
         return regex.test(item.nameRU) || regex.test(item.nameEN);
       });
       if (filterData.length === 0) {
