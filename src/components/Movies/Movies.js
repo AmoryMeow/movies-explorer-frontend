@@ -23,6 +23,7 @@ function Movies({ savedMovies, onSubmitSearch, movies, isLoading, loadingError, 
       <SearchForm 
         onSubmitSearch={onSubmitSearch} 
         onFilterShort={onFilterShort}
+        isLoading={isLoading}
       />
       
       {isLoading && <Preloader/>}

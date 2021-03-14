@@ -3,11 +3,11 @@ import './SearchForm.css';
 import search from '../../images/search.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({onSubmitSearch, onFilterShort}) {
+function SearchForm({onSubmitSearch, onFilterShort, isLoading}) {
   
   const [query, setQuery] = React.useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = React.useState(false);
-
+  
   function handleOnChange(evt) {
     setQuery(evt.target.value);
   }
@@ -24,8 +24,8 @@ function SearchForm({onSubmitSearch, onFilterShort}) {
   return (
     <section className="search">
       <form name="search" className="search__form" onSubmit={handleOnSubmit}>
-        <input required className="search__input" placeholder="Фильм" onChange={handleOnChange}/>
-        <button className={`search__button ${isSubmitDisabled && 'search__button_disabled'}`} disabled={isSubmitDisabled}>
+        <input required className="search__input" placeholder="Фильм" onChange={handleOnChange} disabled={isLoading}/>
+        <button className={`search__button ${isSubmitDisabled && 'search__button_disabled'}`} disabled={isSubmitDisabled || isLoading}>
           <img className="search__img" src={search} alt="Искать"/>
         </button>
       </form>
